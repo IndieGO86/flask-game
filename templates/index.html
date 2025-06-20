@@ -45,23 +45,19 @@
 
       .race-box {
           width: 100px;
-          height: 100px;
+          height: auto; 
           background: #444;
           margin: 0 auto 10px auto;
-          line-height: 100px;
+          padding: 5px;
           text-align: center;
           border-radius: 8px;
           font-weight: bold;
-          font-size: 1em; /* уменьшено немного */
+          font-size: 1.1em;
           user-select: none;
-          overflow: hidden;
-          white-space: normal; /* разрешаем перенос строк */
-          padding: 5px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          text-align: center;
-          word-break: break-word;
+
+          word-wrap: break-word;
+          white-space: normal;
+          line-height: 1.1; 
       }
 
       .class {

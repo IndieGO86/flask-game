@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template_string
+from flask import Flask, render_template, request, redirect, url_for
 from models import db, Player
 import os
 

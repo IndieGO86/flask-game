@@ -68,8 +68,14 @@
             <div class="race-box">{{ player.race }}</div>
             <div class="class">{{ player.player_class }}</div>
             <div class="stats">
-              <span class="hp">HP: {{ player.hp }}</span>
-              <span class="mana">Мана: {{ player.mana }}</span>
+              <div class="stats">
+                <span>HP: {{ player.hp }}</span>
+
+                  {% if player.player_class == 'Воин' %}
+                  <span>Энергия: {{ player.energy }}</span>
+                {% else %}
+                  <span>Мана: {{ player.mana }}</span>
+    {% endif %}
             </div>
             <div class="gold">Золото: {{ player.gold }}</div>
           </div>

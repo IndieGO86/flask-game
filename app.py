@@ -10,10 +10,8 @@ db.init_app(app)
 @app.route("/")
 def index():
     players = Player.query.all()
-    return "<br>".join([
-        f"{p.name} — {p.race}, {p.player_class}, Золото: {p.gold}, HP: {p.health}, Энергия: {p.energy}, Мана: {p.mana}"
-        for p in players
-    ]) or "Игроков пока нет"
+    return render_template("index.html", players=players)
+
 
 @app.route("/register", methods=["GET", "POST"])
 def register():

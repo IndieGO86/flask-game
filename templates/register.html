@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Регистрация игрока</title>
+</head>
+<body>
+    <h1>Создать нового игрока</h1>
+    <form method="POST">
+        <label>Имя:</label><br>
+        <input type="text" name="name"><br><br>
+
+        <label>Класс:</label><br>
+        <select name="class_player">
+            <option value="warrior">Воин</option>
+            <option value="mage">Маг</option>
+            <option value="rogue">Разбойник</option>
+        </select><br><br>
+
+        <label>Уровень:</label><br>
+        <input type="number" name="level" value="1"><br><br>
+
+        <input type="submit" value="Зарегистрировать">
+    </form>
+</body>
+</html>

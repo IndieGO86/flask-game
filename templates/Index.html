@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <title>Игроки</title>
+    <style>
+      body {
+        background: #121212;
+        color: #eee;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        margin: 20px;
+      }
+      .container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px;
+        justify-content: center;
+      }
+      .card {
+        width: 220px;
+        background: #222;
+        padding: 15px;
+        border-radius: 8px;
+        box-shadow: 0 0 8px rgba(0,0,0,0.7);
+      }
+      .name {
+        margin: 0 0 10px 0;
+        font-size: 1.4em;
+        text-align: center;
+      }
+      .race-box {
+        width: 100px;
+        height: 100px;
+        background: #444;
+        margin: 0 auto 10px auto;
+        line-height: 100px;
+        text-align: center;
+        border-radius: 8px;
+        font-weight: bold;
+        font-size: 1.1em;
+        user-select: none;
+      }
+      .class {
+        text-align: center;
+        margin-bottom: 10px;
+        font-style: italic;
+        font-weight: 600;
+      }
+      .stats {
+        display: flex;
+        justify-content: space-around;
+        margin-bottom: 10px;
+      }
+      .gold {
+        text-align: center;
+        font-weight: bold;
+        color: #f4c542;
+      }
+    </style>
+</head>
+<body>
+    <h1>Список игроков</h1>
+    <div class="container">
+    {% if players %}
+        {% for player in players %}
+          <div class="card">
+            <h2 class="name">{{ player.name }}</h2>
+            <div class="race-box">{{ player.race }}</div>
+            <div class="class">{{ player.player_class }}</div>
+            <div class="stats">
+              <span class="hp">HP: {{ player.hp }}</span>
+              <span class="mana">Мана: {{ player.mana }}</span>
+            </div>
+            <div class="gold">Золото: {{ player.gold }}</div>
+          </div>
+        {% endfor %}
+    {% else %}
+        <p>Игроков пока нет</p>
+    {% endif %}
+    </div>
+</body>
+</html>

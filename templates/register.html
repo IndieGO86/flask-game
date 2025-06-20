@@ -5,21 +5,27 @@
 </head>
 <body>
     <h1>Создать нового игрока</h1>
-    <form method="POST">
-        <label>Имя:</label><br>
-        <input type="text" name="name"><br><br>
+<form method="POST">
+    <label>Имя:</label><br>
+    <input type="text" name="name"><br><br>
 
-        <label>Класс:</label><br>
-        <select name="class_player">
-            <option value="warrior">Воин</option>
-            <option value="mage">Маг</option>
-            <option value="rogue">Разбойник</option>
-        </select><br><br>
+    <label>Раса:</label><br>
+    <select name="race"> <!-- добавлено -->
+        <option>Человек</option>
+        <option>Орк</option>
+        <option>Эльф</option>
+        <option>Лесной Эльф</option>
+        <option>Чупакабра</option>
+    </select><br><br>
 
-        <label>Уровень:</label><br>
-        <input type="number" name="level" value="1"><br><br>
+    <label>Класс:</label><br>
+    <select name="player_class"> <!-- имя, как в Python -->
+        <option value="Воин">Воин</option>
+        <option value="Маг">Маг</option>
+        <option value="Разбойник">Разбойник</option>
+    </select><br><br>
 
-        <input type="submit" value="Зарегистрировать">
-    </form>
-</body>
+    <input type="submit" value="Зарегистрировать">
+</form>
+
 </html>

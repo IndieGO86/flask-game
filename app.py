@@ -42,7 +42,7 @@ def register():
         db.session.add(new_player)
         db.session.commit()
 
-        return f"Игрок {name} успешно создан!"
+        return redirect(url_for("index"))
 
     return render_template("register.html")
 

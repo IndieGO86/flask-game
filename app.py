@@ -44,28 +44,8 @@ def register():
 
         return f"Игрок {name} успешно создан!"
 
-    form_html = """
-    <h2>Регистрация Игрока</h2>
-    <form method="POST">
-        Имя: <input type="text" name="name"><br>
-        Раса:
-        <select name="race">
-            <option>Человек</option>
-            <option>Орк</option>
-            <option>Эльф</option>
-            <option>Лесной Эльф</option>
-            <option>Чупакабра</option>
-        </select><br>
-        Класс:
-        <select name="player_class">
-            <option>Воин</option>
-            <option>Разбойник</option>
-            <option>Маг</option>
-        </select><br>
-        <input type="submit" value="Создать">
-    </form>
-    """
-    return render_template_string(form_html)
+    return render_template("register.html")
+
 
 if __name__ == "__main__":
     with app.app_context():

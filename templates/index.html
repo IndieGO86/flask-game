@@ -8,7 +8,8 @@
       background: #121212;
       color: #eee;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      margin: 20px;
+      margin: 0;
+      padding: 20px;
     }
 
     h1 {
@@ -18,11 +19,10 @@
 
     .container {
       display: flex;
-      justify-content: center;
+      gap: 20px;
     }
 
     .card {
-      width: 280px;
       background: #1e1e1e;
       padding: 16px;
       border-radius: 10px;
@@ -79,47 +79,124 @@
     .details-link a:hover {
       text-decoration: underline;
     }
+
+    .logout-form {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+    }
+
+    .logout-form button {
+      background-color: #f44336;
+      border: none;
+      padding: 6px 12px;
+      color: white;
+      font-weight: bold;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.9em;
+    }
+
+    .logout-form button:hover {
+      background-color: #d32f2f;
+    }
+
+    .avatar-box {
+      position: fixed;
+      top: 10px;
+      left: 10px;
+      background: #1e1e1e;
+      border-radius: 8px;
+      padding: 10px;
+      box-shadow: 0 0 8px rgba(0,0,0,0.6);
+      z-index: 100;
+      min-width: 150px;
+    }
+
+    .field {
+      flex: 1;
+      background: #2a2a2a;
+      border-radius: 12px;
+      box-shadow: inset 0 0 20px rgba(0,0,0,0.8);
+      min-height: 500px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #888;
+      font-size: 1.5em;
+    }
+
+    .other-players {
+      width: 280px;
+      background: #1e1e1e;
+      padding: 16px;
+      border-radius: 10px;
+      box-shadow: 0 0 12px rgba(0, 0, 0, 0.6);
+      color: #eee;
+      max-height: 500px;
+      overflow-y: auto;
+    }
   </style>
 </head>
 <body>
 
   {% if player %}
     <!-- Аватар игрока -->
-    <div style="
-      position: fixed;
-      top: 10px; left: 10px;
-      background: #1e1e1e;
-      border-radius: 8px;
-      padding: 10px;
-      box-shadow: 0 0 8px rgba(0,0,0,0.6);
-      z-index: 100;
-    ">
+    <div class="avatar-box">
       <strong>{{ player.name }}</strong><br>
       <small>{{ player.race }} — {{ player.player_class }}</small>
     </div>
 
-    <!-- Карточка персонажа -->
+    <!-- Кнопка выхода -->
+    <form class="logout-form" method="post" action="{{ url_for('logout') }}">
+      <button type="submit">Выйти</button>
+    </form>
+
+    <!-- Заголовок -->
     <h1>Добро пожаловать, {{ player.name }}!</h1>
+
+    <!-- Основной блок -->
     <div class="container">
-      <div class="card">
-        <h2 class="name">{{ player.name }}</h2>
-        <div class="race-box">{{ player.race }}</div>
-        <div class="class">{{ player.player_class }}</div>
+      <!-- Левая колонка -->
+      <div style="width: 280px;">
+        <div class="card">
+          <h2 class="name">{{ player.name }}</h2>
+          <div class="race-box">{{ player.race }}</div>
+          <div class="class">{{ player.player_class }}</div>
 
-        <div class="stats">
-          <span>HP: {{ player.health }}</span>
-          {% if player.energy is not none %}
-            <span>Энергия: {{ player.energy }}</span>
-          {% elif player.mana is not none %}
-            <span>Мана: {{ player.mana }}</span>
-          {% endif %}
+          <div class="stats">
+            <span>HP: {{ player.health }}</span>
+            {% if player.energy is not none %}
+              <span>Энергия: {{ player.energy }}</span>
+            {% elif player.mana is not none %}
+              <span>Мана: {{ player.mana }}</span>
+            {% endif %}
+          </div>
+
+          <div class="gold">Золото: {{ player.gold }}</div>
+
+          <div class="details-link">
+            <a href="{{ url_for('profile') }}">Подробнее</a>
+          </div>
         </div>
+      </div>
 
-        <div class="gold">Золото: {{ player.gold }}</div>
+      <!-- Центр: Игровое поле -->
+      <div class="field">
+        Игровое поле
+      </div>
 
-        <div class="details-link">
-          <a href="{{ url_for('profile') }}">Подробнее</a>
-        </div>
+      <!-- Правая колонка: Другие игроки -->
+      <div class="other-players">
+        <h3>Другие игроки</h3>
+        {% for op in other_players %}
+          <div style="margin-bottom: 12px; border-bottom: 1px solid #444; padding-bottom: 8px;">
+            <strong>{{ op.name }}</strong><br>
+            <small>{{ op.race }} — {{ op.player_class }}</small>
+          </div>
+        {% else %}
+          <p>Пока никто не играет</p>
+        {% endfor %}
       </div>
     </div>
 

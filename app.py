@@ -11,11 +11,15 @@ db.init_app(app)
 @app.route("/")
 def index():
     player_id = session.get("player_id")
+    player = None
+    other_players = []
     if player_id:
         player = Player.query.get(player_id)
-        if player:
-            return render_template("index.html", player=player)
-    return render_template("index.html", player=None, show_auth=True)
+        # Подгружаем всех остальных игроков, кроме текущего
+        other_players = Player.query.filter(Player.id != player_id).all()
+
+    return render_template("index.html", player=player, other_players=other_players)
+
 
 
 @app.route("/login", methods=["POST"])
@@ -28,7 +32,10 @@ def login():
     session["player_id"] = player.id
     return redirect(url_for("index"))
 
-
+@app.route('/logout', methods=['POST'])
+def logout():
+    session.clear()
+    return redirect(url_for('index'))
 
 @app.route("/profile")
 def profile():

@@ -1,16 +1,21 @@
-from flask import Flask, render_template_string,render_template, request, redirect, url_for
+from flask import Flask, render_template_string,render_template, request, redirect, url_for, session
 from models import db, Player
 import os
 
 app = Flask(__name__)
+app.secret_key = os.environ.get("SECRET_KEY", "supersecretkey")
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("SQLALCHEMY_DATABASE_URI")
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db.init_app(app)
 
 @app.route("/")
 def index():
-    players = Player.query.all()
-    return render_template("index.html", players=players)
+    player_id = session.get("player_id")
+    if not player_id:
+        return redirect(url_for("register"))
+
+    player = Player.query.get(player_id)
+    return render_template("index.html", player=player)
 
 
 @app.route("/register", methods=["GET", "POST"])
@@ -41,6 +46,8 @@ def register():
         )
         db.session.add(new_player)
         db.session.commit()
+        
+        session["player_id"] = new_player.id
 
         return redirect(url_for("index"))
 

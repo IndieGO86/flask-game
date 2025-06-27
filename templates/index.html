@@ -1,113 +1,114 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8" />
-    <title>Игроки</title>
-    <style>
-      body {
-        background: #121212;
-        color: #eee;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        margin: 20px;
-      }
+  <meta charset="UTF-8" />
+  <title>Ваш персонаж</title>
+  <style>
+    body {
+      background: #121212;
+      color: #eee;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 20px;
+    }
 
-      h1 {
-        text-align: center;
-        margin-bottom: 30px;
-      }
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
 
-      .container {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 20px;
-        justify-content: center;
-      }
+    .container {
+      display: flex;
+      justify-content: center;
+    }
 
-      .card {
-        width: 250px;
-        background: #1e1e1e;
-        padding: 16px;
-        border-radius: 10px;
-        box-shadow: 0 0 12px rgba(0, 0, 0, 0.6);
-        transition: transform 0.2s ease;
-      }
+    .card {
+      width: 280px;
+      background: #1e1e1e;
+      padding: 16px;
+      border-radius: 10px;
+      box-shadow: 0 0 12px rgba(0, 0, 0, 0.6);
+      transition: transform 0.2s ease;
+    }
 
-      .card:hover {
-        transform: scale(1.03);
-      }
+    .name {
+      margin: 0 0 12px 0;
+      font-size: 1.6em;
+      text-align: center;
+      color: #f0f0f0;
+    }
 
-      .name {
-        margin: 0 0 12px 0;
-        font-size: 1.5em;
-        text-align: center;
-        color: #f0f0f0;
-      }
+    .race-box {
+      width: 120px;
+      background: #444;
+      margin: 0 auto 10px auto;
+      padding: 6px;
+      text-align: center;
+      border-radius: 8px;
+      font-weight: bold;
+      font-size: 1.1em;
+      user-select: none;
+    }
 
-      .race-box {
-          width: 100px;
-          height: auto; 
-          background: #444;
-          margin: 0 auto 10px auto;
-          padding: 5px;
-          text-align: center;
-          border-radius: 8px;
-          font-weight: bold;
-          font-size: 1.1em;
-          user-select: none;
+    .class {
+      text-align: center;
+      margin-bottom: 12px;
+      font-style: italic;
+      font-weight: 600;
+      color: #bbb;
+    }
 
-          word-wrap: break-word;
-          white-space: normal;
-          line-height: 1.1; 
-      }
+    .stats {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 12px;
+      padding: 0 8px;
+      font-size: 0.95em;
+    }
 
-      .class {
-        text-align: center;
-        margin-bottom: 12px;
-        font-style: italic;
-        font-weight: 600;
-        color: #bbb;
-      }
+    .gold {
+      text-align: center;
+      font-weight: bold;
+      color: #f4c542;
+    }
 
-      .stats {
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: 12px;
-        padding: 0 8px;
-        font-size: 0.95em;
-      }
+    .details-link {
+      text-align: center;
+      margin-top: 15px;
+    }
 
-      .gold {
-        text-align: center;
-        font-weight: bold;
-        color: #f4c542;
-      }
-    </style>
+    .details-link a {
+      color: #78c7ff;
+      text-decoration: none;
+    }
+
+    .details-link a:hover {
+      text-decoration: underline;
+    }
+  </style>
 </head>
 <body>
-    <h1>Список игроков</h1>
-    <div class="container">
-    {% if players %}
-        {% for player in players %}
-          <div class="card">
-            <h2 class="name">{{ player.name }}</h2>
-            <div class="race-box">{{ player.race }}</div>
-            <div class="class">{{ player.player_class }}</div>
-            
-            <div class="stats">
-              <span>HP: {{ player.health }}</span>
-              {% if player.player_class == 'Воин' %}
-                <span>Энергия: {{ player.energy }}</span>
-              {% else %}
-                <span>Мана: {{ player.mana }}</span>
-              {% endif %}
-            </div>
+  <h1>Добро пожаловать, {{ player.name }}!</h1>
+  <div class="container">
+    <div class="card">
+      <h2 class="name">{{ player.name }}</h2>
+      <div class="race-box">{{ player.race }}</div>
+      <div class="class">{{ player.player_class }}</div>
 
-            <div class="gold">Золото: {{ player.gold }}</div>
-          </div>
-        {% endfor %}
-    {% else %}
-        <p>Игроков пока нет</p>
-    {% endif %}
+      <div class="stats">
+        <span>HP: {{ player.health }}</span>
+        {% if player.energy is not none %}
+          <span>Энергия: {{ player.energy }}</span>
+        {% elif player.mana is not none %}
+          <span>Мана: {{ player.mana }}</span>
+        {% endif %}
+      </div>
+
+      <div class="gold">Золото: {{ player.gold }}</div>
+
+      <div class="details-link">
+        <a href="{{ url_for('profile') }}">Подробнее</a>
+      </div>
     </div>
+  </div>
 </body>
 </html>

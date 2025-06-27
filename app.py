@@ -10,26 +10,25 @@ db.init_app(app)
 
 @app.route("/")
 def index():
-    player_id = session.get('player_id')
+    player_id = session.get("player_id")
     if player_id:
         player = Player.query.get(player_id)
         if player:
             return render_template("index.html", player=player)
-    # если нет игрока в сессии — показать страницу с формой регистрации/логина
     return render_template("index.html", player=None, show_auth=True)
+
 
 @app.route("/login", methods=["POST"])
 def login():
-    username = request.form.get("username")
-    password = request.form.get("password")
+    name = request.form.get("name").strip()
+    player = Player.query.filter_by(name=name).first()
+    if not player:
+        # Передаём имя как параметр GET
+        return redirect(url_for("register", name=name))
+    session["player_id"] = player.id
+    return redirect(url_for("index"))
 
-    # Здесь ты можешь добавить свою проверку логина
-    player = Player.query.filter_by(name=username).first()
-    if player:
-        session['player_id'] = player.id
-        return redirect(url_for('index'))
-    
-    return "Неверное имя", 403
+
 
 @app.route("/profile")
 def profile():
@@ -48,16 +47,10 @@ def register():
         race = request.form["race"]
         player_class = request.form["player_class"]
 
-        # Базовые параметры
+        # базовые параметры
         health = 100
-        energy = None
-        mana = None
-
-        # Логика классов
-        if player_class in ["Воин", "Разбойник"]:
-            energy = 100
-        elif player_class == "Маг":
-            mana = 100
+        energy = 100 if player_class in ["Воин", "Разбойник"] else None
+        mana = 100 if player_class == "Маг" else None
 
         new_player = Player(
             name=name,
@@ -69,12 +62,13 @@ def register():
         )
         db.session.add(new_player)
         db.session.commit()
-        
         session["player_id"] = new_player.id
-
         return redirect(url_for("index"))
 
-    return render_template("register.html")
+    # получаем name из GET-запроса, если передано
+    name = request.args.get("name", "")
+    return render_template("register.html", name=name)
+
 
 
 if __name__ == "__main__":

@@ -27,11 +27,9 @@
       padding: 16px;
       border-radius: 10px;
       box-shadow: 0 0 12px rgba(0, 0, 0, 0.6);
-      transition: transform 0.2s ease;
     }
 
     .name {
-      margin: 0 0 12px 0;
       font-size: 1.6em;
       text-align: center;
       color: #f0f0f0;
@@ -40,13 +38,11 @@
     .race-box {
       width: 120px;
       background: #444;
-      margin: 0 auto 10px auto;
+      margin: 10px auto;
       padding: 6px;
       text-align: center;
       border-radius: 8px;
       font-weight: bold;
-      font-size: 1.1em;
-      user-select: none;
     }
 
     .class {
@@ -60,7 +56,6 @@
     .stats {
       display: flex;
       justify-content: space-between;
-      margin-bottom: 12px;
       padding: 0 8px;
       font-size: 0.95em;
     }
@@ -87,7 +82,23 @@
   </style>
 </head>
 <body>
+
   {% if player %}
+    <!-- Аватар игрока -->
+    <div style="
+      position: fixed;
+      top: 10px; left: 10px;
+      background: #1e1e1e;
+      border-radius: 8px;
+      padding: 10px;
+      box-shadow: 0 0 8px rgba(0,0,0,0.6);
+      z-index: 100;
+    ">
+      <strong>{{ player.name }}</strong><br>
+      <small>{{ player.race }} — {{ player.player_class }}</small>
+    </div>
+
+    <!-- Карточка персонажа -->
     <h1>Добро пожаловать, {{ player.name }}!</h1>
     <div class="container">
       <div class="card">
@@ -111,13 +122,37 @@
         </div>
       </div>
     </div>
-  {% else %}
-    <h1>Пожалуйста, войдите или зарегистрируйтесь</h1>
-    <form method="post" action="{{ url_for('login') }}">
-      <input type="text" name="username" placeholder="Имя игрока" required />
-      <input type="password" name="password" placeholder="Пароль" required />
-      <button type="submit">Войти</button>
-    </form>
+
+  {% elif show_auth %}
+    <!-- Overlay логина -->
+    <div id="auth-overlay" style="
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      background: rgba(0,0,0,0.8);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 999;
+    ">
+      <div style="
+        background: #1e1e1e;
+        padding: 20px;
+        border-radius: 10px;
+        width: 300px;
+        box-shadow: 0 0 20px rgba(0,0,0,0.5);
+      ">
+        <h2 style="text-align:center;">Вход в игру</h2>
+        <form method="post" action="{{ url_for('login') }}">
+          <input name="name" placeholder="Введите имя" required style="width:100%;margin-bottom:10px;padding:8px;" />
+          <button type="submit" style="width:100%;padding:8px;">Войти</button>
+        </form>
+        <div style="text-align:center;margin-top:10px;">
+          <small>Новый игрок? <a href="{{ url_for('register') }}">Создать персонажа</a></small>
+        </div>
+      </div>
+    </div>
   {% endif %}
+
 </body>
 </html>

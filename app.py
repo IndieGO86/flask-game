@@ -11,11 +11,21 @@ db.init_app(app)
 @app.route("/")
 def index():
     player_id = session.get("player_id")
+
+    if not player_id:
+        return render_template("index.html", show_auth=True)
+
+    player = Player.query.get(player_id)
+    return render_template("index.html", player=player, show_auth=False)
+
+@app.route("/profile")
+def profile():
+    player_id = session.get("player_id")
     if not player_id:
         return redirect(url_for("register"))
 
     player = Player.query.get(player_id)
-    return render_template("index.html", player=player)
+    return render_template("profile.html", player=player)
 
 
 @app.route("/register", methods=["GET", "POST"])

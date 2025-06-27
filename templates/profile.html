@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <title>Личный кабинет {{ player.name }}</title>
+  <style>
+     body {
+            background: #1f1d1d;
+            color: #eee;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+  </style>
+</head>
+<body>
+  <h1>Личный кабинет игрока {{ player.name }}</h1>
+  <div class="container">
+    <div class="card">
+      <h2 class="name">{{ player.name }}</h2>
+      <div class="race-box">{{ player.race }}</div>
+      <div class="class">{{ player.player_class }}</div>
+
+      <div class="stats">
+        <span>HP: {{ player.health }}</span>
+        {% if player.energy is not none %}
+          <span>Энергия: {{ player.energy }}</span>
+        {% elif player.mana is not none %}
+          <span>Мана: {{ player.mana }}</span>
+        {% endif %}
+      </div>
+
+      <div class="gold">Золото: {{ player.gold }}</div>
+
+      <!-- Добавь сюда больше данных, которые хочешь показать -->
+      <p>Дополнительная информация...</p>
+    </div>
+  </div>
+</body>
+</html>

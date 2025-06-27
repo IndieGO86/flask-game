@@ -18,6 +18,19 @@ def index():
     # если нет игрока в сессии — показать страницу с формой регистрации/логина
     return render_template("index.html", player=None, show_auth=True)
 
+@app.route("/login", methods=["POST"])
+def login():
+    username = request.form.get("username")
+    password = request.form.get("password")
+
+    # Здесь ты можешь добавить свою проверку логина
+    player = Player.query.filter_by(name=username).first()
+    if player:
+        session['player_id'] = player.id
+        return redirect(url_for('index'))
+    
+    return "Неверное имя", 403
+
 @app.route("/profile")
 def profile():
     player_id = session.get("player_id")

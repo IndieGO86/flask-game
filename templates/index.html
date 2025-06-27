@@ -101,17 +101,6 @@
       background-color: #d32f2f;
     }
 
-    .avatar-box {
-      position: fixed;
-      top: 10px;
-      left: 10px;
-      background: #1e1e1e;
-      border-radius: 8px;
-      padding: 10px;
-      box-shadow: 0 0 8px rgba(0,0,0,0.6);
-      z-index: 100;
-      min-width: 150px;
-    }
 
     .field {
       flex: 1;
@@ -141,19 +130,14 @@
 <body>
 
   {% if player %}
-    <!-- Аватар игрока -->
-    <div class="avatar-box">
-      <strong>{{ player.name }}</strong><br>
-      <small>{{ player.race }} — {{ player.player_class }}</small>
-    </div>
-
+   
     <!-- Кнопка выхода -->
     <form class="logout-form" method="post" action="{{ url_for('logout') }}">
       <button type="submit">Выйти</button>
     </form>
 
     <!-- Заголовок -->
-    <h1>Добро пожаловать, {{ player.name }}!</h1>
+    <h1>УУУУ Игра</h1>
 
     <!-- Основной блок -->
     <div class="container">

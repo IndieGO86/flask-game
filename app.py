@@ -10,13 +10,13 @@ db.init_app(app)
 
 @app.route("/")
 def index():
-    player_id = session.get("player_id")
-
-    if not player_id:
-        return render_template("index.html", show_auth=True)
-
-    player = Player.query.get(player_id)
-    return render_template("index.html", player=player, show_auth=False)
+    player_id = session.get('player_id')
+    if player_id:
+        player = Player.query.get(player_id)
+        if player:
+            return render_template("index.html", player=player)
+    # если нет игрока в сессии — показать страницу с формой регистрации/логина
+    return render_template("index.html", player=None, show_auth=True)
 
 @app.route("/profile")
 def profile():

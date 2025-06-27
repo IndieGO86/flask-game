@@ -87,29 +87,37 @@
   </style>
 </head>
 <body>
-  <h1>Добро пожаловать, {{ player.name }}!</h1>
-  <div class="container">
+  {% if player %}
+    <h1>Добро пожаловать, {{ player.name }}!</h1>
+    <div class="container">
       <div class="card">
-    <h2 class="name">{{ player.name }}</h2>
-    <div class="race-box">{{ player.race }}</div>
-    <div class="class">{{ player.player_class }}</div>
+        <h2 class="name">{{ player.name }}</h2>
+        <div class="race-box">{{ player.race }}</div>
+        <div class="class">{{ player.player_class }}</div>
 
-    <div class="stats">
-      <span>HP: {{ player.health }}</span>
-      {% if player.energy is not none %}
-        <span>Энергия: {{ player.energy }}</span>
-      {% elif player.mana is not none %}
-        <span>Мана: {{ player.mana }}</span>
-      {% endif %}
+        <div class="stats">
+          <span>HP: {{ player.health }}</span>
+          {% if player.energy is not none %}
+            <span>Энергия: {{ player.energy }}</span>
+          {% elif player.mana is not none %}
+            <span>Мана: {{ player.mana }}</span>
+          {% endif %}
+        </div>
+
+        <div class="gold">Золото: {{ player.gold }}</div>
+
+        <div class="details-link">
+          <a href="{{ url_for('profile') }}">Подробнее</a>
+        </div>
+      </div>
     </div>
-
-    <div class="gold">Золото: {{ player.gold }}</div>
-
-    <div class="details-link">
-      <a href="{{ url_for('profile') }}">Подробнее</a>
-    </div>
-  </div>
-
-  </div>
+  {% else %}
+    <h1>Пожалуйста, войдите или зарегистрируйтесь</h1>
+    <form method="post" action="{{ url_for('login') }}">
+      <input type="text" name="username" placeholder="Имя игрока" required />
+      <input type="password" name="password" placeholder="Пароль" required />
+      <button type="submit">Войти</button>
+    </form>
+  {% endif %}
 </body>
 </html>
